@@ -1,4 +1,4 @@
-![Cartera](./images/Screenshot%202022-08-22%20at%2012-49-13%20https%20__previewed.app.png)
+![Cartera](./images/banner.png)
 
 # Cartera
 
@@ -27,5 +27,3 @@ A digital budget and transaction manager.
 ### Latest Version
 
 1. [server 1](https://mega.nz/file/L4J2TDJR#Vee3jVl_QankJDzNMSekFbVHrcCxi03LFY-2Ip25LuE) **mega.nz** Cartera_v1.6.28
-
-
