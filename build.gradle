@@ -1,0 +1,108 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 32
+
+    // Automating Version Numbering
+    // https://stackoverflow.com/a/37740142/8229399
+    // answer by: Ahmad Aghazadeh
+
+    def _versionCode = 0
+    def _major = 0
+    def _minor = 0
+    def _patch = 0
+
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        _patch = versionProps['PATCH'].toInteger() + 1
+        _major = versionProps['MAJOR'].toInteger()
+        _minor = versionProps['MINOR'].toInteger()
+        _versionCode = versionProps['VERSION_CODE'].toInteger() + 1
+        if(_patch == 100) {
+            _patch = 0
+            _minor =_minor + 1
+        }
+        if(_minor == 10) {
+            _minor = 0
+            _major =_major + 1
+        }
+
+        versionProps['MAJOR'] = _major.toString()
+        versionProps['MINOR'] = _minor.toString()
+        versionProps['PATCH'] = _patch.toString()
+        versionProps['VERSION_CODE']= _versionCode.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+    def _patch_ver = { if (_patch < 10) "0$_patch" else "$_patch" }
+    def _versionName = "${_major}.${_minor}.${_patch_ver()}"
+
+    defaultConfig {
+        applicationId "media.uqab.cartera"
+        minSdk 25
+        targetSdk 32
+        versionCode _versionCode
+        versionName _versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            manifestPlaceholders.cleartextTrafficPermitted ="true"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    applicationVariants.all { variant ->
+        // automate release naming
+        variant.outputs.all {
+            def versionName = variant.versionName
+            def date = new Date().format('yyyyMMdd')
+            outputFileName = "cartera_${date}_${versionName}.apk"
+        }
+    }
+}
+
+dependencies {
+    implementation project(':libCartera')
+    implementation project(':libDI')
+    implementation(project(':libAuth')) {
+        exclude group: 'com.google.firebase'
+        // Exclude the "plain java" json module to fix build warnings.
+        exclude group: 'org.json', module: 'json'
+    }
+
+    implementation("com.google.firebase:firebase-auth-ktx:$firebaseAuthVersion") {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    implementation("com.google.firebase:firebase-firestore-ktx:$firebaseFirestore") {
+        exclude group: 'org.json', module: 'json'
+    }
+}
+
+
+// Needs to be at the bottom of file.
+apply plugin: 'com.google.gms.google-services'
