@@ -4,8 +4,6 @@
 
 A digital budget and transaction manager.
 
-
-
 **Cartera** is a personal money manager and budget app that assists you in managing your money. You may manage your budget, comprehend everyday spending, and save money effectively with the aid of this straightforward finance management app. It is more than just a spending tracker; it also includes a budget planner, intuitive analysis, useful charts, and other features that make it a complete personal finance manager app. Use **Cartera** and observe the changes in your spending habits.
 
 ### Main Features
@@ -34,4 +32,4 @@ A digital budget and transaction manager.
 
 | Mega.nz <img title="" src="./images/mega.png" alt="" width="50" data-align="center">         |
 |:--------------------------------------------------------------------------------------------:|
-| [Cartera_v1.6.26](https://mega.nz/file/L4J2TDJR#Vee3jVl_QankJDzNMSekFbVHrcCxi03LFY-2Ip25LuE) |
+| [Cartera_v1.6.02](https://mega.nz/file/L4J2TDJR#Vee3jVl_QankJDzNMSekFbVHrcCxi03LFY-2Ip25LuE) |
